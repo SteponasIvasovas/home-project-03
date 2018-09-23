@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { hot } from "react-hot-loader";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect, Switch } from "react-router-dom";
 import { authCheck } from "./../../store/actions/index.js";
 import asyncComponent from "./../../hoc/asyncComponent.js";
 const LoginScreen = asyncComponent(() => import("./../LoginScreen/LoginScreen.js"));
@@ -23,12 +23,17 @@ class App extends Component {
 		let pageUI;
 
 		if (this.props.isLoggedIn) {
-			pageUI = <Route path="/" component={MainScreen} />;
+			pageUI = <Route exact path="/" component={MainScreen} />;
 		} else {
-			pageUI = <Route path="/" component={LoginScreen} />;
+			pageUI = <Route exact path="/" component={LoginScreen} />;
 		}
 
-		return pageUI;
+		return (
+			<Switch>
+				{pageUI}
+				<Redirect to="/" />
+			</Switch>
+		);
 	}
 }
 
@@ -41,8 +46,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default hot(module)(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(App)
+	withRouter(
+		connect(
+			mapStateToProps,
+			mapDispatchToProps
+		)(App)
+	)
 );

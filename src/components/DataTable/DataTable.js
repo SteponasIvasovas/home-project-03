@@ -61,7 +61,7 @@ class DataTable extends Component {
 		}
 	}
 	componentDidMount() {
-		if (this.searchBoxRef) {
+		if (this.searchBoxRef && this.searchBoxRef.current) {
 			this.searchBoxRef.current.focus();
 		}
 	}
