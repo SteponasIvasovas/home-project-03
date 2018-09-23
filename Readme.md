@@ -5,7 +5,7 @@ To run this project node.js and npm is required
 ## Installation
 
 1.  Clone this repository
-2.  Execute npm install in the cloned folder
+2.  Execute "npm install" in the cloned folder
 
 ## Available scripts
 
