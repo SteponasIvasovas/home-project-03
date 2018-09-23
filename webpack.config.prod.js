@@ -1,11 +1,23 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
 	entry: path.resolve(__dirname, "src/index.js"),
-	mode: "development",
-	devtool: "cheap-module-source-map",
+	mode: "production",
+	optimization: {
+		minimizer: [
+			new UglifyJsPlugin({
+				cache: true,
+				parallel: true,
+				sourceMap: true,
+			}),
+			new OptimizeCSSAssetsPlugin({}),
+		],
+	},
 	module: {
 		rules: [
 			{
@@ -16,7 +28,7 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				use: [require.resolve("style-loader"), require.resolve("css-loader")],
+				use: [MiniCssExtractPlugin.loader, require.resolve("css-loader")],
 			},
 			{
 				test: /\.scss$/,
@@ -49,18 +61,16 @@ module.exports = {
 	},
 	resolve: { extensions: ["*", ".js", ".jsx"] },
 	output: {
-		path: path.resolve(__dirname, "/"),
-		publicPath: "/",
+		path: path.resolve(__dirname, "build"),
+		publicPath: "/build",
 		filename: "bundle.js",
 		chunkFilename: "[name].chunk.js",
 	},
-	devServer: {
-		port: 5555,
-		publicPath: "http://localhost:5555",
-		hotOnly: true,
-	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({ template: path.resolve(__dirname, "public/index.html"), filename: "index.html", inject: true }),
+		new MiniCssExtractPlugin({
+			filename: "[name].css",
+			chunkFilename: "[id].css",
+		}),
 	],
 };
