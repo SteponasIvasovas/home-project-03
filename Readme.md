@@ -2,7 +2,7 @@
 
 To run this project node.js and npm is required
 
-## Steps to run this project
+## Installation
 
 1.  Clone this repository
 2.  Execute npm install in the cloned folder
@@ -12,6 +12,11 @@ To run this project node.js and npm is required
 1.  Execute "npm start" to launch project in development mode
 2.  Execute "npm run build" to build production code
 3.  Execute "npm test" to run automated unit tests
+
+## Steps to run this project locally
+
+1.  Execute "npm start" script
+2.  Open http://localhost:5555 in your browser
 
 ## Packages
 
